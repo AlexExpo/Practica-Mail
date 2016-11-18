@@ -55,4 +55,10 @@ public class MailClient
         MailItem item = new MailItem(user, to, subjet, message);
         server.post(item);
     }
+    
+    public void mostrarMails()
+    {
+       System.out.println("Nuevos Mensajes :" + server.howManyMailItems(user));
+       
+    }
 }
