@@ -11,6 +11,10 @@ public class MailClient
     private MailServer server;
     // The user running this client.
     private String user;
+    
+    private boolean respuestaAutomatica;
+    
+    private MailItem mensajeAutomatico;
 
     /**
      * Create a mail client run by user and attached to the given server.
@@ -19,6 +23,8 @@ public class MailClient
     {
         this.server = server;
         this.user = user;
+        respuestaAutomatica = false;
+        this.mensajeAutomatico = mensajeAutomatico;
     }
 
     /**
@@ -26,7 +32,12 @@ public class MailClient
      */
     public MailItem getNextMailItem()
     {
-        return server.getNextMailItem(user);
+        if(respuestaAutomatica == true) {
+            return mensajeAutomatico;
+        }
+        else {
+            return server.getNextMailItem(user);
+        }
     }
 
     /**
@@ -60,5 +71,20 @@ public class MailClient
     {
        System.out.println("Nuevos Mensajes :" + server.howManyMailItems(user));
        
+    }
+    
+    public void habilitarODeshabilitarRespuestaAutomatica()
+    {
+        if(respuestaAutomatica == false) {
+            respuestaAutomatica = true;
+        }
+        else {
+            respuestaAutomatica = false;
+        }
+    }
+    
+    public void configurarMensajeAutomatico(String to, String subjet, String message)
+    {
+        MailItem mensajeAutomatico = new MailItem(user, to, subjet, message);
     }
 }
